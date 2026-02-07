@@ -5,7 +5,7 @@ conda create -n minerl44 python=3.11
 conda activate minerl44
 conda install conda-forge::openjdk=8
 pip install setuptools==65.5.0 pip==21 wheel==0.38.0
-pip install git+git@github.com:dcharatan/minerl.git@v0.4
+pip install git+https://github.com/dcharatan/minerl.git@v0.4
 ```
 
 If your computer isn't already set up for this (e.g., gcc), you might have to follow [these steps](https://github.com/minerllabs/minerl/issues/788#issuecomment-2579166675). I haven't tested them though.
