@@ -1,3 +1,21 @@
+# ACTUAL INSTALLATION INSTRUCTIONS
+
+```bash
+conda create -n minerl44 python=3.11
+conda activate minerl44
+conda install conda-forge::openjdk=8
+pip install setuptools==65.5.0 pip==21 wheel==0.38.0
+pip install git+git@github.com:dcharatan/minerl.git@v0.4
+```
+
+If your computer isn't already set up for this (e.g., gcc), you might have to follow [these steps](https://github.com/minerllabs/minerl/issues/788#issuecomment-2579166675). I haven't tested them though.
+
+When you run whatever rendering script you use:
+
+```bash
+xvfb-run --server-num=100 vglrun python3 script.py
+```
+
 # The [MineRL](http://minerl.io) Python Package
 
 [![Documentation Status](https://readthedocs.org/projects/minerl/badge/?version=latest)](https://minerl.readthedocs.io/en/latest/?badge=latest)

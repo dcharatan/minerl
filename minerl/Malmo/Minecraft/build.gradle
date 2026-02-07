@@ -13,16 +13,16 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
         classpath 'org.ow2.asm:asm:6.0'
-        classpath('com.github.SpongePowered:MixinGradle:dcfaf61'){ // 0.6
+        classpath('org.spongepowered:mixingradle:0.6-SNAPSHOT'){ // 0.6
             // Because forgegradle requires 6.0 (not -debug-all) while mixingradle depends on 5.0
             // and putting mixin right here will place it before forge in the class loader
             exclude group: 'org.ow2.asm', module: 'asm-debug-all'
         }
-
-        classpath 'com.github.brandonhoughton:ForgeGradle:FG_2.2_patched-SNAPSHOT'
+        classpath 'com.github.yunfanjiang:ForgeGradle:FG_2.2_patched-SNAPSHOT'
     }
     configurations {
         compileClasspath {
@@ -42,7 +42,7 @@ plugins {
 }
 
 dependencies {
-    implementation 'com.github.brandonhoughton:forgegradle:FG_2.2_patched-SNAPSHOT'
+    implementation 'com.github.yunfanjiang:ForgeGradle:FG_2.2_patched-SNAPSHOT'
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -113,7 +113,9 @@ jar {
 // And add to the jvm args so that it is also loaded when running using gradle runClient:
 JavaExec exec = project.getTasks().getByName("runClient") as JavaExec
 
-exec.jvmArgs(["-Xmx2G", "-Xdebug", "-Dmixin.debug=true"])
+exec.jvmArgs(["-Dfml.coreMods.load=com.microsoft.Malmo.OverclockingPlugin","-Xmx2G", "-Xdebug", "-Dmixin.debug=true"])
+exec.args(["--tweakClass", "com.microsoft.Malmo.Launcher.tweakers.CoremodTweaker"])
+// exec.jvmArgs(["-Dfml.coreMods.load=com.microsoft.Malmo.OverclockingPlugin","-Xmx2G"])
 
 // If we have a jvm_debug_port defined and valid (>0), then set it for JDWP debugging.
 if (project.hasProperty("jvm_debug_port")) {
@@ -304,7 +306,7 @@ task jaxb() {
     description 'Generate source files for our XML schemas using JAXB'
 
     // Create an index file listing all the schemas:
-    def schemaIndexFile = new File('src/main/resources/schemas.index')
+    def schemaIndexFile = new File("$projectDir/src/main/resources/schemas.index")
     def contents = ""
     def tree = copySchemas.source
     tree.visit { fileDetails ->
